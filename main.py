@@ -10,7 +10,7 @@ import asyncio #è una buona libreria per condividere informazioni tra threads
 
 def MonitorYellow(UpdatedFrames):
     while True:
-        Frame = UpdatedFrames.LFrame
+        Frame = UpdatedFrames.getLFrame()
         yellow = [48, 131, 117]
         tollerance = 25
         mask = CC.RangeMask(Frame,yellow,tollerance)
@@ -36,7 +36,7 @@ def MonitorYellow(UpdatedFrames):
 def ScanLetters(UpdatedFrames):
     os.environ['TESSDATA_PREFIX'] = os.getcwd()+"/Tesseract OCR models"
     while True:
-        Frame = UpdatedFrames.LFrame
+        Frame = UpdatedFrames.getLFrame()
         Frame=CC.ToBlackWhite(Frame,90)
         print(pytesseract.image_to_string(Frame, config='--psm 10 --oem 0 -c tessedit_char_whitelist=HSUu',lang="ita"))
         CC.Showframe(Frame, 'Letter')

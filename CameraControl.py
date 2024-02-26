@@ -2,6 +2,7 @@ import cv2
 import Platform_Detection as PD
 import numpy as np
 import threading
+import copy
 def NewCapture(Cam):
     cap = PD.DoThisOnPlatform("Windows", cv2.VideoCapture, [Cam, cv2.CAP_DSHOW], cv2.VideoCapture, [Cam])[1]
     return cap
@@ -70,6 +71,9 @@ class FrameCapture:
     self.LFrame = UpdateFrame(cap)
     t = threading.Thread(target=self.Updater)
     t.start()
+
+  def getLFrame(self):
+      return copy.deepcopy(self.LFrame)
 
   # read frames as soon as they are available, keeping only most recent one
   def Updater(self):
