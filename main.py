@@ -3,11 +3,12 @@ import threading
 import CameraControl as CC
 import cv2
 import pytesseract
+import os
+
 import asyncio #è una buona libreria per condividere informazioni tra threads
 
 
 def MonitorYellow(cap):
-    ifr = 0
     while True:
         Frame = CC.UpdateFrame(cap)
         yellow = [48, 131, 117]
@@ -20,17 +21,8 @@ def MonitorYellow(cap):
         contorni = CC.Contorni(mask,min_contour_area)
         contorno = CC.Contorno(mask, min_contour_area)
 
-        BWframe = cv2.cvtColor(Frame, cv2.COLOR_BGR2GRAY)
-        black_and_white = cv2.threshold(BWframe, 90, 255, cv2.THRESH_BINARY)[1]
-        cv2.drawContours(Frame, contorni, -1, (0, 255, 0), 3)
 
-        if ifr == 30:
-            print(pytesseract.image_to_string(Frame,config=("-c tessedit"
-                  "_char_whitelist=HSU"
-                  " --psm 10"
-                  " -l osd"
-                  " ")))
-            ifr = 0
+        cv2.drawContours(Frame, contorni, -1, (0, 255, 0), 3)
 
 
         x, y, w, h = cv2.boundingRect(contorno)
@@ -38,25 +30,24 @@ def MonitorYellow(cap):
 
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
-        cv2.imshow('Colored Squares Detection', Frame)
-        cv2.imshow('bLACK AND WITE', BWframe)
-        cv2.imshow('NO GRAYSCALE', black_and_white)
-        ifr += 1
 
+        CC.Showframe(Frame,'Colored Squares Detection')
+
+def ScanLetters(cap):
+    os.environ['TESSDATA_PREFIX'] = os.getcwd()+"/Tesseract OCR models"
+    while True:
+        Frame = CC.UpdateFrame(cap)
+        Frame=CC.ToBlackWhite(Frame,90)
+        print(pytesseract.image_to_string(Frame, config='--psm 10 --oem 0 -c tessedit_char_whitelist=HSUu',lang="ita"))
+        CC.Showframe(Frame, 'Letter')
+        if cv2.waitKey(1) & 0xFF == ord('q'):
+            cv2.destroyAllWindows()
+            break
 
 
 cap = CC.NewCapture(0)
 
-desired_width = 1280
-desired_height = 720
-cap.set(cv2.CAP_PROP_FRAME_WIDTH, desired_width)
-cap.set(cv2.CAP_PROP_FRAME_HEIGHT, desired_height)
 
-actual_width = cap.get(cv2.CAP_PROP_FRAME_WIDTH)
-actual_height = cap.get(cv2.CAP_PROP_FRAME_HEIGHT)
-
-print(f"Actual Resolution: {actual_width}x{actual_height}")
 
 threading.Thread(target=MonitorYellow,args=[cap]).start()
-if cv2.waitKey(1) & 0xFF == ord('q'):
-    cv2.destroyAllWindows()
+threading.Thread(target=ScanLetters,args=[cap]).start()

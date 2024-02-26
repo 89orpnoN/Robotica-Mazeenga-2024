@@ -21,8 +21,8 @@ def UpdateFrame(cap):
         raise Exception("Impossibile estrarre frame")
     return frame
 
-def Showframe(frame):
-    cv2.imshow("USB Camera", frame)
+def Showframe(frame, windowname = "USB Camera"):
+    cv2.imshow(windowname, frame)
 
 def RangeMask(frame,color,tollerance):
     ColorLow = np.array(color) - tollerance
@@ -48,3 +48,17 @@ def Contorno(mask,minArea = 0): #trova il contorno più grande
             Contorno = i
 
     return Contorno
+
+def ToGrayscale(frame):
+    return cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+
+def ToBlackWhite(frame,middleVal=128):
+    return cv2.threshold(ToGrayscale(frame), middleVal, 255, cv2.THRESH_BINARY)[1]
+
+def SetResolution(capture,W,H):
+    capture.set(cv2.CAP_PROP_FRAME_WIDTH, W)
+    capture.set(cv2.CAP_PROP_FRAME_HEIGHT, H)
+    if capture.get(cv2.CAP_PROP_FRAME_WIDTH) == W and capture.get(cv2.CAP_PROP_FRAME_HEIGHT)== H:
+        return True
+    return False
+
