@@ -1,6 +1,7 @@
 import cv2
 import Platform_Detection as PD
 import numpy as np
+import threading
 def NewCapture(Cam):
     cap = PD.DoThisOnPlatform("Windows", cv2.VideoCapture, [Cam, cv2.CAP_DSHOW], cv2.VideoCapture, [Cam])[1]
     return cap
@@ -61,4 +62,19 @@ def SetResolution(capture,W,H):
     if capture.get(cv2.CAP_PROP_FRAME_WIDTH) == W and capture.get(cv2.CAP_PROP_FRAME_HEIGHT)== H:
         return True
     return False
+
+class FrameCapture:
+
+  def __init__(self, cap):
+    self.Capture = cap
+    self.LFrame = UpdateFrame(cap)
+    t = threading.Thread(target=self.Updater)
+    t.start()
+
+  # read frames as soon as they are available, keeping only most recent one
+  def Updater(self):
+    while True:
+      self.LFrame = UpdateFrame(self.Capture)
+
+
 
