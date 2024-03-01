@@ -39,7 +39,7 @@ def ScanLetters(UpdatedFrames):
         Frame = UpdatedFrames.getLFrame()
         Frame=CC.ToBlackWhite(Frame,90)
         print(pytesseract.image_to_string(Frame, config='--psm 10 --oem 0 -c tessedit_char_whitelist=HSUu',lang="ita"))
-        #CC.Showframe(Frame, 'Letter')
+        CC.Showframe(Frame, 'Letter')
         if cv2.waitKey(1) & 0xFF == ord('q'):
             cv2.destroyAllWindows()
             break
