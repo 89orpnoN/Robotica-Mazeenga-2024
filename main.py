@@ -31,7 +31,7 @@ def MonitorYellow(UpdatedFrames):
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
         
-        PD.DoThisOnPlatform("Windows",CC.Showframe,[Frame,'Colored Squares Detection'],print,["colori sta andando"])
+        PD.DoThisOnPlatform("Windows",CC.Showframe,[Frame,'Colored Squares Detection'])
 
 def ScanLetters(UpdatedFrames):
     os.environ['TESSDATA_PREFIX'] = os.getcwd()+"/Tesseract OCR models"
