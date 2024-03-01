@@ -31,7 +31,7 @@ def MonitorYellow(UpdatedFrames):
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
 
-        CC.Showframe(Frame,'Colored Squares Detection')
+        #CC.Showframe(Frame,'Colored Squares Detection')
 
 def ScanLetters(UpdatedFrames):
     os.environ['TESSDATA_PREFIX'] = os.getcwd()+"/Tesseract OCR models"
@@ -39,7 +39,7 @@ def ScanLetters(UpdatedFrames):
         Frame = UpdatedFrames.getLFrame()
         Frame=CC.ToBlackWhite(Frame,90)
         print(pytesseract.image_to_string(Frame, config='--psm 10 --oem 0 -c tessedit_char_whitelist=HSUu',lang="ita"))
-        CC.Showframe(Frame, 'Letter')
+        #CC.Showframe(Frame, 'Letter')
         if cv2.waitKey(1) & 0xFF == ord('q'):
             cv2.destroyAllWindows()
             break
