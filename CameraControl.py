@@ -6,6 +6,7 @@ import copy
 def NewCapture(Cam):
     cap = PD.DoThisOnPlatform("Windows", cv2.VideoCapture, [Cam, cv2.CAP_DSHOW], cv2.VideoCapture, [Cam])[1]
     return cap
+
 def ShowCapture(cap):
     while True:
 

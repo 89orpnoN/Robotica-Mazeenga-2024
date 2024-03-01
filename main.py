@@ -30,8 +30,8 @@ def MonitorYellow(UpdatedFrames):
 
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
-
-        #CC.Showframe(Frame,'Colored Squares Detection')
+        
+        PD.DoThisOnPlatform("Windows",CC.Showframe,[Frame,'Colored Squares Detection'],print,["colori sta andando"])
 
 def ScanLetters(UpdatedFrames):
     os.environ['TESSDATA_PREFIX'] = os.getcwd()+"/Tesseract OCR models"
@@ -39,7 +39,7 @@ def ScanLetters(UpdatedFrames):
         Frame = UpdatedFrames.getLFrame()
         Frame=CC.ToBlackWhite(Frame,90)
         print(pytesseract.image_to_string(Frame, config='--psm 10 --oem 0 -c tessedit_char_whitelist=HSUu',lang="ita"))
-        CC.Showframe(Frame, 'Letter')
+        PD.DoThisOnPlatform("Windows",CC.Showframe,[Frame,'Letter'],print,["Lettere sta andando"])
         if cv2.waitKey(1) & 0xFF == ord('q'):
             cv2.destroyAllWindows()
             break
@@ -49,8 +49,8 @@ cap = CC.NewCapture(0)
 UpdatedFrames = CC.FrameCapture(cap)
 
 
-threading.Thread(target=MonitorYellow,args=[UpdatedFrames]).start()
-threading.Thread(target=ScanLetters,args=[UpdatedFrames]).start()
+threading.Thread(target=MonitorYellow,args=[UpdatedFrames],name="UserThread").start()
+threading.Thread(target=ScanLetters,args=[UpdatedFrames],name="UserThread").start()
 
 for t in threading.enumerate(): 
     if t.getName()=="UserThread": 
