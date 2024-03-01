@@ -51,3 +51,7 @@ UpdatedFrames = CC.FrameCapture(cap)
 
 threading.Thread(target=MonitorYellow,args=[UpdatedFrames]).start()
 threading.Thread(target=ScanLetters,args=[UpdatedFrames]).start()
+
+for t in threading.enumerate(): 
+    if t.getName()=="UserThread": 
+        t.join()

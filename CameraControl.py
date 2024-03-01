@@ -69,8 +69,9 @@ class FrameCapture:
   def __init__(self, cap):
     self.Capture = cap
     self.LFrame = UpdateFrame(cap)
-    t = threading.Thread(target=self.Updater)
-    t.start()
+    self.Thread = threading.Thread(target=self.Updater, name="UserThread")
+    self.Thread.start()
+
 
   def getLFrame(self):
       return copy.deepcopy(self.LFrame)
