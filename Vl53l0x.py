@@ -8,7 +8,7 @@ def wait():
 class Tof_Switch:
 
   def __init__(self, bus,addr, pin):
-      self.Xshut = LED(self.Xshut)
+      self.Xshut = LED(pin)
       self.Off()
 
       self._bus = bus
