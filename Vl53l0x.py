@@ -67,7 +67,6 @@ tof.Off()
 wait()
 tof2.Initialize(False)
 ChangeAddress(tof2,0x32)
-tof2.Off()
 wait()
 
 wait()
