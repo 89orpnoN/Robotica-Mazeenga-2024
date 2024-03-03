@@ -50,10 +50,16 @@ class Tof_Switch:
 
 
 tof = Tof_Switch(1,0x29,11)
+tof2 = Tof_Switch(1,0x29,13)
 
 
 
 tof.Initialize()
+tof.close()
+
+
+wait()
+tof2.Initialize()
 
 
 wait()
@@ -62,3 +68,4 @@ wait()
 
 tof.StartRanging(50)
 
+tof2.StartRanging(50)
