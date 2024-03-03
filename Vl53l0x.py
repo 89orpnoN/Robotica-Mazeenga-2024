@@ -83,6 +83,6 @@ wait()
 tof.On()
 wait()
 
-Getrange(tof)
+print(Getrange(tof))
 
-Getrange(tof2)
+print(Getrange(tof2))
