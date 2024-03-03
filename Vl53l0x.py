@@ -60,8 +60,7 @@ def Getrange(tof): # funzione di prova, poco utile in gara
     timing = tof.VL53L0X.get_timing()
     distance = tof.VL53L0X.get_distance()
     sleep(timing / 1000000.00)
-    tof.VL53L0X.stop_ranging()
-    tof.VL53L0X.close()
+
     return distance
 
 
