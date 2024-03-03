@@ -8,20 +8,18 @@ def wait():
 class Tof_Switch:
 
   def __init__(self, bus,addr, pin):
-    self.Xshut = pin
-    self.Activated = None
+      self.Xshut = LED(self.Xshut)
+      self.Off()
 
-    self._bus = bus
-    self._address = addr
-    self.VL53L0X = None
+      self._bus = bus
+      self._address = addr
+      self.VL53L0X = None
 
   def Initialize(self, deactivate = True):
-      self.Xshut = LED(self.Xshut)
-      self.Xshut.on()
-      self.Activated = False
+      self.On()
 
       self.VL53L0X = VL53L0X.VL53L0X(i2c_bus=self._bus, i2c_address=self._address)
-      if deactivate: self.On()
+      if deactivate: self.Off()
   def On(self):
       self.Xshut.on()
       self.Activated = True
@@ -61,7 +59,7 @@ tof2 = Tof_Switch(1,0x29,13)
 
 
 tof.Initialize()
-tof.Off()
+
 
 
 wait()
