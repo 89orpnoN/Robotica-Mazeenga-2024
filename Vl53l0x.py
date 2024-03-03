@@ -99,7 +99,8 @@ Setup_Tofs([tof,tof2])
 
 
 
-
+tof.On()
 StartRanging(tof,75)
 
+tof2.On()
 StartRanging(tof2,75)
