@@ -3,7 +3,7 @@ import VL53L0X
 from gpiozero import LED
 from time import sleep
 def wait():
-    sleep(0.1) #serve a gestire il delay dei pin I/O
+    sleep(0.5) #serve a gestire il delay dei pin I/O
 
 class Tof_Switch:
 
@@ -18,10 +18,9 @@ class Tof_Switch:
       self.Timing = None
 
   def Initialize(self, deactivate = True): #inizializza il sensore e poi lo spegne di default
-      self.On()
 
       self.VL53L0X = VL53L0X.VL53L0X(i2c_bus=self._bus, i2c_address=self._address)
-      if deactivate: self.Off()
+
   def On(self): #attiva il sensore
       self.Xshut.on()
       self.Activated = True
@@ -38,8 +37,7 @@ class Tof_Switch:
 
   def Open(self):
       self.VL53L0X.open()
-      self.VL53L0X.start_ranging(VL53L0X.Vl53l0xAccuracyMode.BETTER)
-      self.Timing = tof.VL53L0X.get_timing()
+
 
 
   def Close(self):
@@ -52,8 +50,6 @@ def ChangeAddress(tof,new_addr): #cambia l'indirizzo del/dei sensore/i
 
 
 def StartRanging(tof, ranges): # funzione di prova, poco utile in gara
-    if not tof.IsOpen():
-        tof.Open()
 
     for count in range(1, ranges):
       distance = Getrange(tof)
@@ -63,7 +59,11 @@ def StartRanging(tof, ranges): # funzione di prova, poco utile in gara
 
 def Getrange(tof): # Ottiene un singolo range
     if not tof.IsOpen():
-        tof.Open()
+        tof.On()
+        wait()
+        tof.VL53L0X.start_ranging(VL53L0X.Vl53l0xAccuracyMode.BETTER)
+        tof.Timing = tof.VL53L0X.get_timing()
+
     distance = tof.VL53L0X.get_distance()
     sleep(tof.Timing / 1000000.00) #si può fare meglio ma così va bene per ora
     return distance
@@ -74,16 +74,15 @@ def Setup_Tofs(tofs): #cambia l'indirizzo dei tof in base al loro ordine nell'ar
         if not tof.IsOpen() and not tof.Activated:
                 tof.Initialize(False)
                 tof.Open()
-                tof.Off()
         else:
             raise Exception("Classe Tof_Switch già inizializzata")
         i+=1
 
 
 
-tof = Tof_Switch(1,0x29,17) #canale I2C, Indirizzo base del sensore, pin di disattivazione
+tof = Tof_Switch(1,0x2B,17) #canale I2C, Indirizzo base del sensore, pin di disattivazione
 
-tof2 = Tof_Switch(1,0x30,27)
+tof2 = Tof_Switch(1,0x2D,27)
 
 Setup_Tofs([tof,tof2])
 
