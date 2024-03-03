@@ -70,6 +70,6 @@ wait()
 tof.On()
 wait()
 
-StartRanging(tof,200)
+StartRanging(tof,50)
 
-StartRanging(tof2,200)
+StartRanging(tof2,150)
