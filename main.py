@@ -44,16 +44,15 @@ def ScanLetters(UpdatedFrames):
             cv2.destroyAllWindows()
             break
 
+def startCamering():
+    cap = CC.NewCapture(0)
+    UpdatedFrames = CC.FrameCapture(cap)
 
-cap = CC.NewCapture(0)
-UpdatedFrames = CC.FrameCapture(cap)
 
+    threading.Thread(target=MonitorYellow,args=[UpdatedFrames],name="UserThread").start()
+    threading.Thread(target=ScanLetters,args=[UpdatedFrames],name="UserThread").start()
 
-threading.Thread(target=MonitorYellow,args=[UpdatedFrames],name="UserThread").start()
-threading.Thread(target=ScanLetters,args=[UpdatedFrames],name="UserThread").start()
+    for t in threading.enumerate():
+        if t.getName()=="UserThread":
+            t.join()
 
-for t in threading.enumerate(): 
-    if t.getName()=="UserThread": 
-        t.join()
-
-cv2.waitKey(0)
