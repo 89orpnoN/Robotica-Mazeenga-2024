@@ -90,6 +90,6 @@ wait()
 tof.On()
 wait()
 
-print(Getrange(tof))
+print(StartRanging(tof,75))
 
-print(Getrange(tof2))
+print(StartRanging(tof2,75))
