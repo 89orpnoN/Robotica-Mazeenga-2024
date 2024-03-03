@@ -82,7 +82,7 @@ def Setup_Tofs(tofs): #cambia l'indirizzo dei tof in base al loro ordine nell'ar
                 tof.Initialize()
         else:
             raise Exception("Classe Tof_Switch già inizializzata")
-    i+=1
+        i+=1
 
 
 tof = Tof_Switch(1,0x29,17) #canale I2C, Indirizzo base del sensore, pin di disattivazione
