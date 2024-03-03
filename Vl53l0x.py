@@ -66,6 +66,7 @@ def StartRanging(tof, ranges): # funzione di prova, poco utile in gara
 def Getrange(tof): # Ottiene un singolo range
     if not tof.IsOpen():
         tof.Open()
+    print("distanza")
     distance = tof.VL53L0X.get_distance()
     sleep(tof.Timing / 1000000.00) #si può fare meglio ma così va bene per ora
     return distance
