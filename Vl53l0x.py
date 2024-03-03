@@ -3,11 +3,11 @@ import VL53L0X
 from gpiozero import LED
 from time import sleep
 def wait():
-    time.sleep(1)
+    time.sleep(0.5)
 
 class Tof_Switch:
 
-  def __init__(self, bus,addr, pin):
+  def __init__(self, bus,addr, pin): #salva le informazioni importanti per inizializzare il sensore e poi lo spegne
       self.Xshut = LED(pin)
       self.Off()
 
@@ -15,25 +15,24 @@ class Tof_Switch:
       self._address = addr
       self.VL53L0X = None
 
-  def Initialize(self, deactivate = True):
+  def Initialize(self, deactivate = True): #inizializza il sensore e poi lo spegne di default
       self.On()
 
       self.VL53L0X = VL53L0X.VL53L0X(i2c_bus=self._bus, i2c_address=self._address)
       if deactivate: self.Off()
-  def On(self):
+  def On(self): #attiva il sensore
       self.Xshut.on()
       self.Activated = True
 
-  def Off(self):
+  def Off(self): #disattiva il sensore
       self.Xshut.off()
       self.Activated = False
 
-
-def ChangeAddress(tof,new_addr):
+def ChangeAddress(tof,new_addr): #cambia l'indirizzo del/dei sensore/i
       tof._address = new_addr
       tof.VL53L0X.change_address(new_addr)
 
-def StartRanging(tof, ranges):
+def StartRanging(tof, ranges): # funzione di prova, poco utile in gara
     tof.VL53L0X.open()
     tof.VL53L0X.start_ranging(VL53L0X.Vl53l0xAccuracyMode.BETTER)
 
