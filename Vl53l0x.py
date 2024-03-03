@@ -34,7 +34,7 @@ class Tof_Switch:
       wait()
 
   def IsOpen(self):
-      if self.VL53L0X._dev != None: return True
+      if self.VL53L0X != None and self.VL53L0X._dev != None: return True
       return False
 
   def Open(self):
