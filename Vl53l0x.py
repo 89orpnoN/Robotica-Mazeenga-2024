@@ -19,10 +19,11 @@ class Tof_Switch:
       self.VL53L0X = VL53L0X.VL53L0X(i2c_bus=self._bus, i2c_address=self._address)
       if deactivate: self.open()
   def open(self):
+      self.Xshut.on()
       self.Xshut.off()
 
   def close(self):
-      self.Xshut.on()
+      self.Xshut.off()
 
   def ChangeAddress(self,new_addr):
       self._address = new_addr
