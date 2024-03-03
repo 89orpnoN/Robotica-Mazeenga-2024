@@ -20,7 +20,6 @@ class Tof_Switch:
   def Initialize(self, deactivate = True): #inizializza il sensore e poi lo spegne di default
       self.On()
 
-
       self.VL53L0X = VL53L0X.VL53L0X(i2c_bus=self._bus, i2c_address=self._address)
       if deactivate: self.Off()
   def On(self): #attiva il sensore
@@ -65,7 +64,6 @@ def StartRanging(tof, ranges): # funzione di prova, poco utile in gara
 def Getrange(tof): # Ottiene un singolo range
     if not tof.IsOpen():
         tof.Open()
-    print("distanza")
     distance = tof.VL53L0X.get_distance()
     sleep(tof.Timing / 1000000.00) #si può fare meglio ma così va bene per ora
     return distance
@@ -74,18 +72,9 @@ def Setup_Tofs(tofs): #cambia l'indirizzo dei tof in base al loro ordine nell'ar
     i = 0
     for tof in tofs:
         if not tof.IsOpen() and not tof.Activated:
-            if i != 0:
-                print("diverso da 1 inizio")
-                tof.Initialize(False)
-                ChangeAddress(tof, 0x32)
-                tof.Open()
-                tof.Off()
-                print("diverso da 1 fine")
-            else:
                 tof.Initialize(False)
                 tof.Open()
                 tof.Off()
-                print("uguale a 1")
         else:
             raise Exception("Classe Tof_Switch già inizializzata")
         i+=1
@@ -94,18 +83,15 @@ def Setup_Tofs(tofs): #cambia l'indirizzo dei tof in base al loro ordine nell'ar
 
 tof = Tof_Switch(1,0x29,17) #canale I2C, Indirizzo base del sensore, pin di disattivazione
 
-tof2 = Tof_Switch(1,0x29,27)
+tof2 = Tof_Switch(1,0x30,27)
 
 Setup_Tofs([tof,tof2])
 
-print("uscito dal setup")
 
 
 
 tof.On()
-print("acceso tof")
 StartRanging(tof,75)
-print("prese misure")
 
 tof2.On()
 StartRanging(tof2,75)
