@@ -29,8 +29,8 @@ class Tof_Switch:
       self._address = new_addr
       self.VL53L0X.change_address(new_addr)
 
-tof = Tof_Switch.Tof_Switch(1,0x29,11)
-tof2 = Tof_Switch.Tof_Switch(1,0x29,13)
+tof = Tof_Switch(1,0x29,11)
+tof2 = Tof_Switch(1,0x29,13)
 
 tof2.close()
 
