@@ -78,10 +78,13 @@ def Setup_Tofs(tofs): #cambia l'indirizzo dei tof in base al loro ordine nell'ar
                 print("diverso da 1 inizio")
                 tof.Initialize(False)
                 ChangeAddress(tof, 0x32)
+                tof.Open()
                 tof.Off()
                 print("diverso da 1 fine")
             else:
-                tof.Initialize()
+                tof.Initialize(False)
+                tof.Open()
+                tof.Off()
                 print("uguale a 1")
         else:
             raise Exception("Classe Tof_Switch già inizializzata")
