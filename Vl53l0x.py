@@ -47,7 +47,7 @@ wait()
 
 tof.VL53L0X.open()
 # Start ranging
-tof.start_ranging(VL53L0X.Vl53l0xAccuracyMode.BETTER)
+tof.VL53L0X.start_ranging(VL53L0X.Vl53l0xAccuracyMode.BETTER)
 
 timing = tof.VL53L0X.get_timing()
 if timing < 20000:
