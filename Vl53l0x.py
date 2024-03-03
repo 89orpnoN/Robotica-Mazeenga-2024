@@ -3,7 +3,7 @@ import VL53L0X
 from gpiozero import LED
 from time import sleep
 def wait():
-    time.sleep(1)
+    time.sleep(0.1)
 
 class Tof_Switch:
 
