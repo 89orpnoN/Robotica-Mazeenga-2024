@@ -53,7 +53,7 @@ def ChangeAddress(tof,new_addr): #cambia l'indirizzo del/dei sensore/i
 
 
 def StartRanging(tof, ranges): # funzione di prova, poco utile in gara
-    if !tof.IsOpen():
+    if not tof.IsOpen():
         tof.Open()
 
     for count in range(1, ranges):
