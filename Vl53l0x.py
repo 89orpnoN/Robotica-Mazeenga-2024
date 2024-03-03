@@ -58,8 +58,7 @@ def StartRanging(tof, ranges): # funzione di prova, poco utile in gara
 
     for count in range(1, ranges):
       distance = Getrange(tof)
-      if distance > 0:
-          print("%d mm, %d cm, %d" % (distance, (distance / 10), count))
+      print("%d mm, %d cm, %d" % (distance, (distance / 10), count))
 
 
 
