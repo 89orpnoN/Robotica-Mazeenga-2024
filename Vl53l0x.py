@@ -17,7 +17,6 @@ class Tof_Switch:
       self.Xshut = LED(self.Xshut)
       self.Xshut.off()
       self.VL53L0X = VL53L0X.VL53L0X(i2c_bus=self._bus, i2c_address=self._address)
-      self.VL53L0X.open()
       if deactivate: self.open()
   def open(self):
       self.Xshut.off()
@@ -46,6 +45,7 @@ wait()
 tof.open()
 wait()
 
+tof.VL53L0X.open()
 # Start ranging
 tof.start_ranging(VL53L0X.Vl53l0xAccuracyMode.BETTER)
 
