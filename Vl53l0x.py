@@ -38,6 +38,7 @@ wait()
 
 wait()
 tof2.Initialize(False)
+wait()
 tof2.ChangeAddress(0x32)
 tof2.close()
 
