@@ -98,12 +98,14 @@ tof2 = Tof_Switch(1,0x29,27)
 
 Setup_Tofs([tof,tof2])
 
-
+print("uscito dal setup")
 
 
 
 tof.On()
+print("acceso tof")
 StartRanging(tof,75)
+print("prese misure")
 
 tof2.On()
 StartRanging(tof2,75)
