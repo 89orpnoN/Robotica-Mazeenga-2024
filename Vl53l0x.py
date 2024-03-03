@@ -38,7 +38,7 @@ class Tof_Switch:
       timing = 20000
     print("Timing %d ms" % (timing / 1000))
 
-    for count in range(1, 101):
+    for count in range(1, ranges):
       distance = self.VL53L0X.get_distance()
       if distance > 0:
           print("%d mm, %d cm, %d" % (distance, (distance / 10), count))
@@ -60,5 +60,5 @@ wait()
 tof.open()
 wait()
 
-tof.StartRanging()
+tof.StartRanging(50)
 
