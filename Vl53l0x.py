@@ -32,22 +32,20 @@ class Tof_Switch:
 tof = Tof_Switch(1,0x29,11)
 tof2 = Tof_Switch(1,0x29,13)
 
-tof2.close()
-
-wait()
 
 tof.Initialize()
 
 wait()
 
-tof2.open()
 wait()
-tof2.Initialize()
-
+tof2.Initialize(False)
+tof2.ChangeAddress(0x32)
+tof2.close()
 
 wait()
 tof.open()
 wait()
+
 # Start ranging
 tof.start_ranging(VL53L0X.Vl53l0xAccuracyMode.BETTER)
 
