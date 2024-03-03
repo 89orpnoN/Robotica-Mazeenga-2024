@@ -30,18 +30,11 @@ class Tof_Switch:
       self.VL53L0X.change_address(new_addr)
 
 tof = Tof_Switch(1,0x29,11)
-tof2 = Tof_Switch(1,0x29,13)
+
 
 
 tof.Initialize()
 
-wait()
-
-wait()
-tof2.Initialize(False)
-wait()
-tof2.ChangeAddress(0x32)
-tof2.close()
 
 wait()
 tof.open()
