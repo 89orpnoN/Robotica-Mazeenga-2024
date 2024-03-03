@@ -76,7 +76,7 @@ def Setup_Tofs(tofs): #cambia l'indirizzo dei tof in base al loro ordine nell'ar
         if not tof.IsOpen() and not tof.Activated:
             if i != 0:
                 tof.Initialize(False)
-                ChangeAddress(tof, tof._address+1)
+                ChangeAddress(tof, tof._address+i)
                 tof.Off()
             else:
                 tof.Initialize()
