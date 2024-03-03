@@ -67,7 +67,7 @@ tof.Initialize()
 
 
 wait()
-tof.On()
+tof.Off()
 wait()
 
 StartRanging(tof,200)
