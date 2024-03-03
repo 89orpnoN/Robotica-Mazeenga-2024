@@ -3,7 +3,7 @@ import VL53L0X
 from gpiozero import LED
 from time import sleep
 def wait():
-    time.sleep(0.5)
+    time.sleep(1)
 
 class Tof_Switch:
 
@@ -53,10 +53,11 @@ def StartRanging(tof, ranges):
     tof.VL53L0X.close()
 
 
-tof = Tof_Switch(1,0x29,11)
-
-tof2 = Tof_Switch(1,0x29,13)
+tof = Tof_Switch(1,0x29,17)
+wait()
+tof2 = Tof_Switch(1,0x29,27)
 tof2.Initialize(False)
+wait()
 ChangeAddress(tof2,0x32)
 wait()
 
