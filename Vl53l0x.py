@@ -84,7 +84,7 @@ def Setup_Tofs(tofs): #cambia l'indirizzo dei tof in base al loro ordine nell'ar
                 tof.On()
                 ChangeAddress(tof, tof._address + 1)
                 tof.Open()
-                tof.Off()
+                tof.Off() # una volta aperto non può essere spento ritardato
 
         else:
             raise Exception("Classe Tof_Switch già inizializzata")
