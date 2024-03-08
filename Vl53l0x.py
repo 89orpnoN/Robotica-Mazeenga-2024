@@ -13,10 +13,12 @@ class Tof_Switch:
 
   def __init__(self, bus,addr, pin): #salva le informazioni importanti per inizializzare il sensore e poi lo spegne
       self.Xshut = LED(pin)
-      self.Off()
 
       self._IsOpen = False
       self._IsReady = False
+
+      self.Off()
+
 
       self._bus = bus
       self._address = addr
@@ -97,14 +99,7 @@ def Setup_Tofs(pins): #cambia l'indirizzo dei tof in base al loro ordine nell'ar
 
     return tofs
 
-
-
-tof = Tof_Switch(1,0x29,17) #canale I2C, Indirizzo base del sensore, pin di disattivazione
-
-tof2 = Tof_Switch(1,0x29,27)
-
 tof, tof2 = Setup_Tofs([17,27])
-
 
 
 StartRanging(tof,75)
