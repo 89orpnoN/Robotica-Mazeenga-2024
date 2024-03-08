@@ -28,9 +28,9 @@ class Tof_Switch:
 
   def Initialize(self): #inizializza il sensore e poi lo spegne di default
       self.VL53L0X = VL53L0X.VL53L0X(i2c_bus=self._bus, i2c_address=_base_address)
-      tof.On()
+      self.On()
       ChangeAddress(tof, tof._address)
-      tof.Open()
+      self.Open()
 
   def On(self): #attiva il sensore
       self.Xshut.on()
