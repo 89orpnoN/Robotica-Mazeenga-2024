@@ -1,4 +1,4 @@
-from ctypes import pointer
+from ctypes import pointer, c_int
 
 import VL53L0X
 from gpiozero import LED
@@ -123,7 +123,7 @@ def Setup_Tofs(pins): #cambia l'indirizzo dei tof in base al loro ordine nell'ar
             tofs.append(tof)
             wait()
             #controllo che non sia andato a puttane
-            err = pointer(100)
+            err = pointer(c_int)
             _TOF_LIBRARY.VL53L0X_GetPalState(tof.VL53L0X._dev,err)
             err = err.contents
             print("lo stato è: " + str(err))
