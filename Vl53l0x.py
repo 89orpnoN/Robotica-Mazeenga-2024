@@ -92,9 +92,10 @@ def Getrange(tof): # Ottiene un singolo range
 def Setup_Tofs(pins): #cambia l'indirizzo dei tof in base al loro ordine nell'array
     i = 1
     tofs = []
-    capture = io.StdCapture()
     for pin in pins:
         while True:
+            capture = io.StdCapture()
+
             #setup del sensore
             tof = Tof_Switch(_base_bus,_base_address + i,pin)
             tof.Initialize()
