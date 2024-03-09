@@ -115,10 +115,13 @@ def Setup_Tofs(pins): #cambia l'indirizzo dei tof in base al loro ordine nell'ar
     i = 1
     tofs = []
     for pin in pins:
+
+        tof = Tof_Switch(_base_bus, _base_address + i, pin)
+
         while True:
 
             #setup del sensore
-            tof = Tof_Switch(_base_bus,_base_address + i,pin)
+
             tof.Initialize()
             tofs.append(tof)
             wait()
