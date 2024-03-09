@@ -2,6 +2,7 @@
 import VL53L0X
 from gpiozero import LED
 from time import sleep
+from py import io
 def wait():
     sleep(0.5) #serve a gestire il delay dei pin I/O
 
@@ -91,11 +92,22 @@ def Getrange(tof): # Ottiene un singolo range
 def Setup_Tofs(pins): #cambia l'indirizzo dei tof in base al loro ordine nell'array
     i = 1
     tofs = []
+    capture = io.StdCaptureFD()
     for pin in pins:
-        tof = Tof_Switch(_base_bus,_base_address + i,pin)
-        tof.Initialize()
-        tofs.append(tof)        
+        while True:
+            #setup del sensore
+            tof = Tof_Switch(_base_bus,_base_address + i,pin)
+            tof.Initialize()
+            tofs.append(tof)
+
+            #controllo che non sia andato a puttane
+            str = capture.reset()[0]
+
+            if str.find("-6") == -1:
+                break
+
         i+=1
+
 
     return tofs
 
