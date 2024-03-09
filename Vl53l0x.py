@@ -92,7 +92,7 @@ def Getrange(tof): # Ottiene un singolo range
 def Setup_Tofs(pins): #cambia l'indirizzo dei tof in base al loro ordine nell'array
     i = 1
     tofs = []
-    capture = io.StdCaptureFD()
+    capture = io.StdCapture()
     for pin in pins:
         while True:
             #setup del sensore
