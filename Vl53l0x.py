@@ -117,24 +117,24 @@ def Setup_Tofs(pins): #cambia l'indirizzo dei tof in base al loro ordine nell'ar
     for pin in pins:
 
         tof = Tof_Switch(_base_bus, _base_address + i, pin)
+        #setup del sensore
 
-        while True:
+        tof.Initialize()
+        tofs.append(tof)
+        wait()
+        #controllo che non sia andato a puttane
+        err = pointer(c_int(100))
+        _TOF_LIBRARY.VL53L0X_GetDeviceErrorStatus(tof.VL53L0X._dev,err)
+        err = err.contents.value
 
-            #setup del sensore
-
-            tof.Initialize()
-            tofs.append(tof)
-            wait()
-            #controllo che non sia andato a puttane
-            err = pointer(c_int(100))
-            _TOF_LIBRARY.VL53L0X_GetDeviceErrorStatus(tof.VL53L0X._dev,err)
-            err = err.contents.value
+        while err != 0:
+            tof.Close()
+            tof.Off()
+            tof.On()
+            tof.Open()
             print("lo stato è: " + str(err))
-            if err == 0:
-                tof.Close()
-                tof.Off()
-
-                break
+            _TOF_LIBRARY.VL53L0X_GetDeviceErrorStatus(tof.VL53L0X._dev, err)
+            err = err.contents.value
         i+=1
 
 
