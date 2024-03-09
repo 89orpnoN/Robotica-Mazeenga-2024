@@ -3,13 +3,34 @@ import VL53L0X
 from gpiozero import LED
 from time import sleep
 from py import io
+
+
 def wait():
     sleep(0.5) #serve a gestire il delay dei pin I/O
+
+def LoadCLib(): #mi serve per accedere direttamente alla API scritta in C
+    import sysconfig
+    from ctypes import CDLL, c_int
+    import site
+    global _TOF_LIBRARY
+    # Load VL53L0X shared lib
+    suffix = sysconfig.get_config_var('EXT_SUFFIX')
+    if suffix is None:
+        suffix = ".so"
+    _POSSIBLE_LIBRARY_LOCATIONS = ['../bin'] + site.getsitepackages() + [site.getusersitepackages()]
+    for lib_location in _POSSIBLE_LIBRARY_LOCATIONS:
+        try:
+            _TOF_LIBRARY = CDLL(lib_location + '/vl53l0x_python' + suffix)
+            break
+        except OSError:
+            pass
+    else:
+        raise OSError('Could not find vl53l0x_python' + suffix)
 
 _base_bus = 1
 _base_address = 0x29
 _base_rangeMode = VL53L0X.Vl53l0xAccuracyMode.BETTER
-
+_TOF_LIBRARY = None
 class Tof_Switch:
 
   def __init__(self, bus,addr, pin): #salva le informazioni importanti per inizializzare il sensore e poi lo spegne
@@ -94,7 +115,6 @@ def Setup_Tofs(pins): #cambia l'indirizzo dei tof in base al loro ordine nell'ar
     tofs = []
     for pin in pins:
         while True:
-            capture = io.StdCapture()
 
             #setup del sensore
             tof = Tof_Switch(_base_bus,_base_address + i,pin)
@@ -102,15 +122,15 @@ def Setup_Tofs(pins): #cambia l'indirizzo dei tof in base al loro ordine nell'ar
             tofs.append(tof)
             wait()
             #controllo che non sia andato a puttane
-            str = capture.reset()[0]
-            print(str)
-            if str.strip().find("-6") == -1:
+            status = _TOF_LIBRARY.VL53L0X_GetPalState(tof.VL53L0X._dev)
+            if status < 90:
                 break
-
         i+=1
 
 
     return tofs
+
+LoadCLib()
 
 tof, tof2, tof3 = Setup_Tofs([17,27,22])
 
