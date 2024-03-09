@@ -131,7 +131,9 @@ def Setup_Tofs(pins): #cambia l'indirizzo dei tof in base al loro ordine nell'ar
             err = err.contents.value
             print("lo stato è: " + str(err))
             if err == 0:
+                tof.Close()
                 tof.Off()
+
                 break
         i+=1
 
