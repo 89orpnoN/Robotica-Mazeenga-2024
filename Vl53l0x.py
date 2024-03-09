@@ -99,7 +99,7 @@ def Setup_Tofs(pins): #cambia l'indirizzo dei tof in base al loro ordine nell'ar
 
     return tofs
 
-tof, tof2 = Setup_Tofs([17,27])
+tof, tof2 = Setup_Tofs([17,27,22])
 
 
 StartRanging(tof,75)
