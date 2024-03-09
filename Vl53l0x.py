@@ -1,3 +1,4 @@
+from ctypes import pointer
 
 import VL53L0X
 from gpiozero import LED
@@ -10,7 +11,7 @@ def wait():
 
 def LoadCLib(): #mi serve per accedere direttamente alla API scritta in C
     import sysconfig
-    from ctypes import CDLL, c_int
+    from ctypes import CDLL, c_int,pointer
     import site
     global _TOF_LIBRARY
     # Load VL53L0X shared lib
@@ -122,9 +123,11 @@ def Setup_Tofs(pins): #cambia l'indirizzo dei tof in base al loro ordine nell'ar
             tofs.append(tof)
             wait()
             #controllo che non sia andato a puttane
-            status = _TOF_LIBRARY.VL53L0X_GeerttPalState("tof.VL53L0X._dev")
-            print("lo stato è: " + str(status))
-            if status < 90:
+            err = pointer.pointer()
+            _TOF_LIBRARY.VL53L0X_GetPalState(tof.VL53L0X._dev,err)
+            err = err.contents
+            print("lo stato è: " + str(err))
+            if err < 90:
                 break
         i+=1
 
