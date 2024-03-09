@@ -127,12 +127,7 @@ def Setup_Tofs(pins): #cambia l'indirizzo dei tof in base al loro ordine nell'ar
         _TOF_LIBRARY.VL53L0X_GetDeviceErrorStatus(tof.VL53L0X._dev,err)
         err = err.contents.value
 
-        while err != 0:
-            tof.Close()
-            tof.Open()
-            print("lo stato è: " + str(err))
-            _TOF_LIBRARY.VL53L0X_GetDeviceErrorStatus(tof.VL53L0X._dev, err)
-            err = err.contents.value
+
         i+=1
 
 
@@ -140,7 +135,7 @@ def Setup_Tofs(pins): #cambia l'indirizzo dei tof in base al loro ordine nell'ar
 
 LoadCLib()
 
-tof, tof2, tof3 = Setup_Tofs([17,27,22])
+tof, tof2, tof3 = Setup_Tofs([17,22,27])
 
 
 StartRanging(tof,75)
