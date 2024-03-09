@@ -103,7 +103,7 @@ def Setup_Tofs(pins): #cambia l'indirizzo dei tof in base al loro ordine nell'ar
 
             #controllo che non sia andato a puttane
             str = capture.reset()[0]
-            print(str.strip())
+            print(str)
             if str.strip().find("-6") == -1:
                 break
 
