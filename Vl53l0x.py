@@ -123,6 +123,7 @@ def Setup_Tofs(pins): #cambia l'indirizzo dei tof in base al loro ordine nell'ar
             wait()
             #controllo che non sia andato a puttane
             status = _TOF_LIBRARY.VL53L0X_GetPalState(tof.VL53L0X._dev)
+            print("lo stato è: " + str(status))
             if status < 90:
                 break
         i+=1
