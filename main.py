@@ -55,9 +55,14 @@ def startCamering():
     cap = CC.NewCapture(0)
     UpdatedFrames = CC.FrameCapture(cap)
 
+    cap2 = CC.NewCapture(0)
+    UpdatedFrames2 = CC.FrameCapture(cap2)
 
     threading.Thread(target=MonitorYellow,args=[UpdatedFrames],name="UserThread").start()
     threading.Thread(target=ScanLetters,args=[UpdatedFrames],name="UserThread").start()
+
+    threading.Thread(target=MonitorYellow, args=[UpdatedFrames2], name="UserThread").start()
+    threading.Thread(target=ScanLetters, args=[UpdatedFrames2], name="UserThread").start()
 
     for t in threading.enumerate():
         if t.getName()=="UserThread":
