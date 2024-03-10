@@ -52,7 +52,7 @@ def ScanLetters(UpdatedFrames):
         epoch = time.process_time_ns()
 
 def startCamering():
-    cap = CC.NewCapture(0)
+    cap = CC.NewCapture(-1)
     cap.set(3, 160)
     cap.set(4, 120)
 
