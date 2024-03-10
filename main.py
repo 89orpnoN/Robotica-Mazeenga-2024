@@ -4,7 +4,7 @@ import CameraControl as CC
 import cv2
 import pytesseract
 import os
-
+import time
 import asyncio #è una buona libreria per condividere informazioni tra threads
 
 
@@ -35,6 +35,8 @@ def MonitorYellow(UpdatedFrames):
 
 def ScanLetters(UpdatedFrames):
     os.environ['TESSDATA_PREFIX'] = os.getcwd()+"/Tesseract OCR models"
+    count = 0
+    epoch = time.process_time_ns()
     while True:
         Frame = UpdatedFrames.getLFrame()
         Frame=CC.ToBlackWhite(Frame,90)
@@ -43,6 +45,10 @@ def ScanLetters(UpdatedFrames):
         if cv2.waitKey(1) & 0xFF == ord('q'):
             cv2.destroyAllWindows()
             break
+        count+=1
+        if count == 10:
+            print("scan: " + str((time.process_time_ns() - epoch)/10))
+            epoch = time.process_time_ns()
 
 def startCamering():
     cap = CC.NewCapture(0)
