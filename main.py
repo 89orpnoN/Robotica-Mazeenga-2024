@@ -53,10 +53,13 @@ def ScanLetters(UpdatedFrames):
 
 def startCamering():
     cap = CC.NewCapture(0)
-    cap2 = CC.NewCapture(1)
-
     cap.set(3, 320)
     cap.set(4, 240)
+
+
+    cap2 = CC.NewCapture(1)
+
+
     cap2.set(3, 320)
     cap2.set(4, 240)
 
