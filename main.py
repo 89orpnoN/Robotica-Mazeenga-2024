@@ -35,7 +35,6 @@ def MonitorYellow(UpdatedFrames):
 
 def ScanLetters(UpdatedFrames):
     os.environ['TESSDATA_PREFIX'] = os.getcwd()+"/Tesseract OCR models"
-    count = 0
     epoch = time.process_time_ns()
     while True:
         Frame = UpdatedFrames.getLFrame()
@@ -45,10 +44,8 @@ def ScanLetters(UpdatedFrames):
         if cv2.waitKey(1) & 0xFF == ord('q'):
             cv2.destroyAllWindows()
             break
-        count+=1
-        if count == 10:
-            print("scan: " + str((time.process_time_ns() - epoch)/10))
-            epoch = time.process_time_ns()
+        print("scan: " + str((time.process_time_ns() - epoch) / 1000000000))
+        epoch = time.process_time_ns()
 
 def startCamering():
     cap = CC.NewCapture(0)
