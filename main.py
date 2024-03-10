@@ -9,6 +9,7 @@ import asyncio #è una buona libreria per condividere informazioni tra threads
 
 
 def MonitorYellow(UpdatedFrames):
+    epoch = time.process_time_ns()
     while True:
         Frame = UpdatedFrames.getLFrame()
         yellow = [48, 131, 117]
@@ -33,6 +34,9 @@ def MonitorYellow(UpdatedFrames):
         
         PD.DoThisOnPlatform("Windows",CC.Showframe,[Frame,'Colored Squares Detection'])
 
+        print("colore: " + str((time.process_time_ns() - epoch) / 1000000000))
+        epoch = time.process_time_ns()
+
 def ScanLetters(UpdatedFrames):
     os.environ['TESSDATA_PREFIX'] = os.getcwd()+"/Tesseract OCR models"
     epoch = time.process_time_ns()
@@ -44,7 +48,7 @@ def ScanLetters(UpdatedFrames):
         if cv2.waitKey(1) & 0xFF == ord('q'):
             cv2.destroyAllWindows()
             break
-        print("scan: " + str((time.process_time_ns() - epoch) / 1000000000))
+        print("lettere: " + str((time.process_time_ns() - epoch) / 1000000000))
         epoch = time.process_time_ns()
 
 def startCamering():
