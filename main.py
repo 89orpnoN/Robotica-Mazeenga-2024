@@ -55,7 +55,7 @@ def startCamering():
     cap = CC.NewCapture(0)
     UpdatedFrames = CC.FrameCapture(cap)
 
-    cap2 = CC.NewCapture(0)
+    cap2 = CC.NewCapture(1)
     UpdatedFrames2 = CC.FrameCapture(cap2)
 
     threading.Thread(target=MonitorYellow,args=[UpdatedFrames],name="UserThread").start()
