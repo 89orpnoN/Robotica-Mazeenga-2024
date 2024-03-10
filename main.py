@@ -62,3 +62,4 @@ def startCamering():
         if t.getName()=="UserThread":
             t.join()
 
+startCamering()
