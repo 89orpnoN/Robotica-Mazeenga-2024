@@ -57,7 +57,7 @@ def startCamering():
     cap.set(4, 240)
 
 
-    cap2 = CC.NewCapture(-1)
+    cap2 = CC.NewCapture(1)
 
 
     cap2.set(3, 320)
