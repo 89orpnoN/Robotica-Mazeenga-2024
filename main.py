@@ -53,9 +53,14 @@ def ScanLetters(UpdatedFrames):
 
 def startCamering():
     cap = CC.NewCapture(0)
-    UpdatedFrames = CC.FrameCapture(cap)
-
     cap2 = CC.NewCapture(1)
+
+    cap.set(3, 320)
+    cap.set(4, 240)
+    cap2.set(3, 320)
+    cap2.set(4, 240)
+
+    UpdatedFrames = CC.FrameCapture(cap)
     UpdatedFrames2 = CC.FrameCapture(cap2)
 
     threading.Thread(target=MonitorYellow,args=[UpdatedFrames],name="UserThread").start()
