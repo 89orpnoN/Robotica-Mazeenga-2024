@@ -13,7 +13,7 @@ mvm = 0
 def checkbutton(last_button):
     while True:
         last_button[0] = input()
-
+threading.Thread(target=checkbutton, args=[last_button], name="UserThread").start()
 while True:
     if last_button[0] == "W":
         mvm+=1
