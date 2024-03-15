@@ -28,8 +28,10 @@ while True:
             robot.backward()
     if last_button[0] == "D":
         robot.right()
+        mvm = 0
     elif last_button[0] == "A":
         robot.left()
+        mvm = 0
 
     before_last_button[0] = last_button[0]
 
