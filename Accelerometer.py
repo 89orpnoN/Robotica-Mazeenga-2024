@@ -20,4 +20,4 @@ while True:
     print("z: " + str(gyro_data['z']))
 
     print("Temp: " + str(temp) + " C")
-    sleep(0.5)
+    sleep(5)
