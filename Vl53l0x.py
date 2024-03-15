@@ -135,11 +135,11 @@ def Setup_Tofs(pins): #cambia l'indirizzo dei tof in base al loro ordine nell'ar
 
 LoadCLib()
 
-tof, tof2, tof3 = Setup_Tofs([17,22,27])
+tof, tof2, tof3 = Setup_Tofs([17,27,22])
 
 
-StartRanging(tof,75)
+#StartRanging(tof,75)
 
-StartRanging(tof2,75)
+#StartRanging(tof2,75)
 
-StartRanging(tof3,75)
+#StartRanging(tof3,75)
