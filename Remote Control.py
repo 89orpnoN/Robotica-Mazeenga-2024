@@ -15,9 +15,9 @@ def checkbutton(last_button):
         last_button[0] = input()
 threading.Thread(target=checkbutton, args=[last_button], name="UserThread").start()
 while True:
-    if last_button[0] == "W":
+    if last_button[0] == "W"!= before_last_button[0]:
         mvm+=1
-    elif last_button[0] == "S":
+    elif last_button[0] == "S"!= before_last_button[0]:
         mvm -= 1
     if last_button[0] != before_last_button[0] and (last_button[0] == "S" or last_button[0] == "W"):
         if mvm == 1:
@@ -30,3 +30,6 @@ while True:
         robot.right()
     elif last_button[0] == "A":
         robot.left()
+
+    before_last_button[0] = last_button[0]
+
