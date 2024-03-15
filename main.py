@@ -4,7 +4,7 @@ from motors import robot
 from gpiozero import Button
 from time import sleep
 
-WALL_THRESHOLD = 50
+WALL_THRESHOLD = 60
 
 def is_free(tof): return Vl53l0x.Getrange(tof) > WALL_THRESHOLD
 
@@ -18,14 +18,14 @@ while True:
   if False:
     victim()
 
-  if is_free(Vl53l0x.tof):
+  if is_free(Vl53l0x.tof_dx):
     robot.right()
     sleep(2)
     robot.forward()
     sleep(2)
-  elif is_free(Vl53l0x.tof2):
+  elif is_free(Vl53l0x.tof_f):
     robot.forward()
-  elif is_free(Vl53l0x.tof3):
+  elif is_free(Vl53l0x.tof_sx):
     robot.left()
     sleep(2)
     robot.forward()
