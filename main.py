@@ -8,7 +8,7 @@ WALL_THRESHOLD = 60
 
 def is_free(tof): return Vl53l0x.Getrange(tof) > WALL_THRESHOLD
 
-switch = Button(23)
+switch = Button(23) #aggiustare il problema degli edge cases
 
 while True:
   if switch.value == 0:
