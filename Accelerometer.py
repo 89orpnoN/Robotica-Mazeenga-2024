@@ -84,8 +84,10 @@ def Calibrate(mpu,samples,padding = 0.05,manualtemp = False, verbose = False):
     if verbose:
         print("AccelOffset: " + str(mpu.AccelOffset))
         print("AccelIgnore: " + str(mpu.AccelIgnore))
+        print("accel_error: "+ str(accel_error))
         print("GyroOffset: "+str(mpu.GyroOffset))
         print("GyroIgnore: " + str(mpu.GyroIgnore))
+        print("gyro_error: " + str(gyro_error))
 
 def GetAccelData(mpu): #da implementare
     accel_data = _3dDictToArr(mpu.Sensor.get_accel_data())
