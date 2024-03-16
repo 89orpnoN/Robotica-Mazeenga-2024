@@ -34,7 +34,7 @@ def Calibrate(mpu,manualtemp = False):
 
 
 
-    AccelSamdwich = [accel[0].copy()*3] #sandwich perché è minore, medio e maggiore
+    AccelSamdwich = [accel[0].copy(),accel[0].copy(),accel[0].copy()] #sandwich perché è minore, medio e maggiore
     for i in accel:
         for j in ["x","y","z"]:
             if AccelSamdwich[0][j] > i[j]:
@@ -48,7 +48,7 @@ def Calibrate(mpu,manualtemp = False):
     mpu.AccelOffset = AccelSamdwich[1]
     mpu.AccelIgnore = [AccelSamdwich[0],AccelSamdwich[2]]
 
-    GyroSamdwich = [gyro[0].copy()*3]
+    GyroSamdwich = [gyro[0].copy(),gyro[0].copy(),gyro[0].copy()]
     for i in gyro:
         for j in ["x", "y", "z"]:
             if GyroSamdwich[0][j] > i[j]: #min
