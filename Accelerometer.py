@@ -62,7 +62,7 @@ def Calibrate(mpu,samples,padding = 0.1,manualtemp = False, verbose = False):
     mpu.AccelIgnore = [numpy.add(AccelSamdwich[0],mpu.AccelOffset),numpy.add(AccelSamdwich[2],mpu.AccelOffset)]
     accel_abs_error = (numpy.absolute(mpu.AccelIgnore[0]) + numpy.absolute(mpu.AccelIgnore[1]))
     accel_error = accel_abs_error * padding
-    mpu.AccelIgnore = [(mpu.AccelIgnore[0] + accel_error).tolist(),(mpu.AccelIgnore[1] + accel_error).tolist()]
+    mpu.AccelIgnore = [(mpu.AccelIgnore[0] - accel_error).tolist(),(mpu.AccelIgnore[1] - accel_error).tolist()]
 
     GyroSamdwich = [gyro[0].copy(),gyro[0].copy(),gyro[0].copy()]
     for i in gyro: #trova le  x y z minori, maggiori e medie e salvale.
@@ -79,7 +79,7 @@ def Calibrate(mpu,samples,padding = 0.1,manualtemp = False, verbose = False):
     mpu.GyroIgnore = [AddOffset(GyroSamdwich[0],mpu.GyroOffset), AddOffset(GyroSamdwich[2],mpu.GyroOffset)]
     gyro_abs_error = (numpy.absolute(mpu.GyroIgnore[0]) + numpy.absolute(mpu.GyroIgnore[1]))
     gyro_error = gyro_abs_error * padding
-    mpu.GyroIgnore = [(mpu.GyroIgnore[0] + gyro_error).tolist(),(mpu.GyroIgnore[1] + gyro_error).tolist()]
+    mpu.GyroIgnore = [(mpu.GyroIgnore[0] - gyro_error).tolist(),(mpu.GyroIgnore[1] - gyro_error).tolist()]
 
     if verbose:
         print("AccelOffset: " + str(mpu.AccelOffset))
