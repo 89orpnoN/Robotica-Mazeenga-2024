@@ -29,6 +29,9 @@ def Calibrate(mpu,manualtemp = False):
         gyro_data = mpu.Sensor.get_gyro_data()
         gyro.append(gyro_data)
 
+        print("accel_data: " + str(accel_data))
+        print("gyro_data: " + str(gyro_data))
+
 
 
     AccelSamdwich = [accel[0].copy(),accel[0].copy(),accel[0].copy()] #sandwich perché è minore, medio e maggiore
