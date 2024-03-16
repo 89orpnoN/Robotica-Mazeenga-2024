@@ -19,15 +19,18 @@ class  MPU6050:
         self.GyroIgnore = [None,None]
         self.AccelIgnore = [None,None]
 
-def Calibrate(mpu,manualtemp = False):
+def Calibrate(mpu,manualtemp = False, verbose = False):
     if manualtemp:
         mpu.TempOffset = int(input("offset temperatura: ")) #niente error check, se lo scrivi male sono affari tuoi
+
     print("#"*10  + "stabilizzare il robot" + "#"*10)
-    sleep(1)
+    sleep(3)
+
     accel = []
     gyro = []
     for i in range(1000):
-        print("misurazione: " + str(i))
+        if verbose:
+            print("misurazione: " + str(i))
 
         accel_data = mpu.Sensor.get_accel_data()
         accel_data = _3dDictToArr(accel_data)
@@ -37,8 +40,9 @@ def Calibrate(mpu,manualtemp = False):
         gyro_data = _3dDictToArr(gyro_data)
         gyro.append(gyro_data)
 
-        print("accel_data: " + str(accel_data))
-        print("gyro_data: " + str(gyro_data))
+        if verbose:
+            print("accel_data: " + str(accel_data))
+            print("gyro_data: " + str(gyro_data))
 
 
 
@@ -55,7 +59,7 @@ def Calibrate(mpu,manualtemp = False):
 
     mpu.AccelOffset = [AccelSamdwich[1][x] / (-len(accel)) for x in range(3)]
 
-    mpu.AccelIgnore = [numpy.add(AccelSamdwich[0],mpu.AccelOffset),numpy.add(AccelSamdwich[2],mpu.AccelOffset)]
+    mpu.AccelIgnore = [numpy.add(AccelSamdwich[0],mpu.AccelOffset).tolist(),numpy.add(AccelSamdwich[2],mpu.AccelOffset).tolist]
 
     GyroSamdwich = [gyro[0].copy(),gyro[0].copy(),gyro[0].copy()]
     for i in gyro:
@@ -71,10 +75,11 @@ def Calibrate(mpu,manualtemp = False):
     mpu.GyroOffset = [GyroSamdwich[1][x] / (-len(gyro)) for x in range(3)]
     mpu.GyroIgnore = [numpy.add(GyroSamdwich[0],mpu.GyroOffset).tolist(), numpy.add(GyroSamdwich[2],mpu.GyroOffset).tolist()]
 
-    print("GyroOffset: "+str(mpu.GyroOffset))
-    print("GyroIgnore: " + str(mpu.GyroIgnore))
-    print("AccelOffset: " + str(mpu.AccelOffset))
-    print("AccelIgnore: " + str(mpu.AccelIgnore))
+    if verbose:
+        print("AccelOffset: " + str(mpu.AccelOffset))
+        print("AccelIgnore: " + str(mpu.AccelIgnore))
+        print("GyroOffset: "+str(mpu.GyroOffset))
+        print("GyroIgnore: " + str(mpu.GyroIgnore))
 
 def GetAccelData(mpu): #da implementare
     accel_data = mpu.Sensor.get_accel_data()
@@ -83,6 +88,6 @@ def GetAccelData(mpu): #da implementare
     None
 
 mpu = MPU6050()
-Calibrate(mpu)
+Calibrate(mpu,verbose = True)
 
 #poi ci sarà anche da fare il "mapper"? (cioè colui che calcola la tua posizione
