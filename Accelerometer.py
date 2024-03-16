@@ -53,9 +53,9 @@ def Calibrate(mpu,manualtemp = False):
 
             AccelSamdwich[1][j] += i[j]
 
-    mpu.AccelOffset = [AccelSamdwich[1][x] / len(accel) for x in range(3) ]
+    mpu.AccelOffset = [AccelSamdwich[1][x] / (-len(accel)) for x in range(3)]
 
-    mpu.AccelIgnore = [AccelSamdwich[0],AccelSamdwich[2]]
+    mpu.AccelIgnore = [numpy.add(AccelSamdwich[0],mpu.AccelOffset),numpy.add(AccelSamdwich[2],mpu.AccelOffset)]
 
     GyroSamdwich = [gyro[0].copy(),gyro[0].copy(),gyro[0].copy()]
     for i in gyro:
@@ -68,8 +68,8 @@ def Calibrate(mpu,manualtemp = False):
 
             GyroSamdwich[1][j] += i[j] #mean
 
-    mpu.GyroOffset = [GyroSamdwich[1][x] / len(gyro) for x in range(3)]
-    mpu.GyroIgnore = [numpy.subtract(GyroSamdwich[0],mpu.GyroOffset), numpy.subtract(GyroSamdwich[2],mpu.GyroOffset)]
+    mpu.GyroOffset = [GyroSamdwich[1][x] / (-len(gyro)) for x in range(3)]
+    mpu.GyroIgnore = [numpy.add(GyroSamdwich[0],mpu.GyroOffset).tolist(), numpy.add(GyroSamdwich[2],mpu.GyroOffset).tolist()]
 
     print("GyroOffset: "+str(mpu.GyroOffset))
     print("GyroIgnore: " + str(mpu.GyroIgnore))
