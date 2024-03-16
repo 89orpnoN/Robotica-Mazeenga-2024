@@ -4,6 +4,12 @@ from time import sleep
 
 sensor = mpu6050(0x68)
 
+
+def _3dDictToArr(dictionary): #il ritardato che ha fatto sta libreria ha strutturato in modo strano i valori
+    val = []
+    for i in ["x","y","z"]:
+        val.append(dictionary[i])
+    return val
 class  MPU6050:
     def __init__(self, bus = 1, addr = 0x68):
         self.Sensor = mpu6050(addr, bus)
@@ -24,9 +30,11 @@ def Calibrate(mpu,manualtemp = False):
         print("misurazione: " + str(i))
 
         accel_data = mpu.Sensor.get_accel_data()
+        accel_data = _3dDictToArr(accel_data)
         accel.append(accel_data)
 
         gyro_data = mpu.Sensor.get_gyro_data()
+        gyro_data = _3dDictToArr(gyro_data)
         gyro.append(gyro_data)
 
         print("accel_data: " + str(accel_data))
@@ -36,7 +44,7 @@ def Calibrate(mpu,manualtemp = False):
 
     AccelSamdwich = [accel[0].copy(),accel[0].copy(),accel[0].copy()] #sandwich perché è minore, medio e maggiore
     for i in accel:
-        for j in ["x","y","z"]:
+        for j in range(3):
             if AccelSamdwich[0][j] > i[j]:
                 AccelSamdwich[0][j] = i[j]
 
@@ -51,7 +59,7 @@ def Calibrate(mpu,manualtemp = False):
 
     GyroSamdwich = [gyro[0].copy(),gyro[0].copy(),gyro[0].copy()]
     for i in gyro:
-        for j in ["x", "y", "z"]:
+        for j in range(3):
             if GyroSamdwich[0][j] > i[j]: #min
                 GyroSamdwich[0][j] = i[j]
 
@@ -69,7 +77,7 @@ def Calibrate(mpu,manualtemp = False):
     print("AccelIgnore: " + str(mpu.AccelIgnore))
 
 def GetAccelData(mpu): #da implementare
-    None
+    accel_data = mpu.Sensor.get_accel_data()
 
 def GetAccelData(mpu): #da implementare
     None
