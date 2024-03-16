@@ -69,7 +69,7 @@ def Calibrate(mpu,manualtemp = False):
             GyroSamdwich[1][j] += i[j] #mean
 
     mpu.GyroOffset = [GyroSamdwich[1][x] / len(gyro) for x in range(3)]
-    mpu.GyroIgnore = [numpy.add(GyroSamdwich[0],mpu.GyroOffset), numpy.add(GyroSamdwich[2],mpu.GyroOffset)]
+    mpu.GyroIgnore = [numpy.subtract(GyroSamdwich[0],mpu.GyroOffset), numpy.subtract(GyroSamdwich[2],mpu.GyroOffset)]
 
     print("GyroOffset: "+str(mpu.GyroOffset))
     print("GyroIgnore: " + str(mpu.GyroIgnore))
