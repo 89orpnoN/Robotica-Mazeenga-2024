@@ -1,7 +1,7 @@
 
 from mpu6050 import mpu6050
 from time import sleep
-
+import numpy
 sensor = mpu6050(0x68)
 
 
@@ -69,7 +69,7 @@ def Calibrate(mpu,manualtemp = False):
             GyroSamdwich[1][j] += i[j] #mean
 
     mpu.GyroOffset = [GyroSamdwich[1][x] / len(gyro) for x in range(3)]
-    mpu.GyroIgnore = [GyroSamdwich[0], GyroSamdwich[2]]
+    mpu.GyroIgnore = [numpy.add(GyroSamdwich[0],mpu.GyroOffset), numpy.add(GyroSamdwich[2],mpu.GyroOffset)]
 
     print("GyroOffset: "+str(mpu.GyroOffset))
     print("GyroIgnore: " + str(mpu.GyroIgnore))
