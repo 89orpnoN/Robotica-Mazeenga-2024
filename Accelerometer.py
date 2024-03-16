@@ -19,7 +19,7 @@ class  MPU6050:
         self.GyroIgnore = [None,None]
         self.AccelIgnore = [None,None]
 
-def Calibrate(mpu,samples,padding = 0.05,manualtemp = False, verbose = False):
+def Calibrate(mpu,samples,padding = 0.1,manualtemp = False, verbose = False):
     if manualtemp:
         mpu.TempOffset = int(input("offset temperatura: ")) #niente error check, se lo scrivi male sono affari tuoi
 
@@ -76,7 +76,7 @@ def Calibrate(mpu,samples,padding = 0.05,manualtemp = False, verbose = False):
             GyroSamdwich[1][j] += i[j] #mean
 
     mpu.GyroOffset = [GyroSamdwich[1][x] / (-len(gyro)) for x in range(3)]
-    mpu.GyroIgnore = [numpy.add(GyroSamdwich[0],mpu.GyroOffset), numpy.add(GyroSamdwich[2],mpu.GyroOffset)]
+    mpu.GyroIgnore = [AddOffset(GyroSamdwich[0],mpu.GyroOffset), AddOffset(GyroSamdwich[2],mpu.GyroOffset)]
     gyro_abs_error = (numpy.absolute(mpu.GyroIgnore[0]) + numpy.absolute(mpu.GyroIgnore[1]))
     gyro_error = gyro_abs_error * padding
     mpu.GyroIgnore = [(mpu.GyroIgnore[0] + gyro_error).tolist(),(mpu.GyroIgnore[1] + gyro_error).tolist()]
@@ -123,7 +123,7 @@ def test():
 
 
 mpu = MPU6050()
-Calibrate(mpu,1000,verbose = True,padding = 0.05)
+Calibrate(mpu,1000,verbose = True,padding = 0.1)
 test()
 
 #poi ci sarà anche da fare il "mapper"? (cioè colui che calcola la tua posizione)
