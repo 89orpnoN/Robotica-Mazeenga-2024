@@ -100,7 +100,7 @@ def GetAccelData(mpu): #da implementare
     for i in range(3):
         if not cross[i]:
             offset_data[i] = 0.0
-    return offset_data.tolist()
+    return offset_data
 
 def GetGyroData(mpu): #da implementare
     gyro_data = _3dDictToArr(mpu.Sensor.get_gyro_data())
@@ -110,7 +110,7 @@ def GetGyroData(mpu): #da implementare
     for i in range(3):
         if not cross[i]:
             offset_data[i] = 0.0
-    return offset_data.tolist()
+    return offset_data
 
 
 def test():
