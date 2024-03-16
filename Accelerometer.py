@@ -19,7 +19,7 @@ class  MPU6050:
         self.GyroIgnore = [None,None]
         self.AccelIgnore = [None,None]
 
-def Calibrate(mpu,manualtemp = False, verbose = False):
+def Calibrate(mpu,samples,padding = 0.05,manualtemp = False, verbose = False):
     if manualtemp:
         mpu.TempOffset = int(input("offset temperatura: ")) #niente error check, se lo scrivi male sono affari tuoi
 
@@ -28,7 +28,7 @@ def Calibrate(mpu,manualtemp = False, verbose = False):
 
     accel = []
     gyro = []
-    for i in range(1000):
+    for i in range(samples):
         if verbose:
             print("misurazione: " + str(i))
 
@@ -47,7 +47,7 @@ def Calibrate(mpu,manualtemp = False, verbose = False):
 
 
     AccelSamdwich = [accel[0].copy(),accel[0].copy(),accel[0].copy()] #sandwich perché è minore, medio e maggiore
-    for i in accel:
+    for i in accel: #trova le  x y z minori, maggiori e medie e salvale.
         for j in range(3):
             if AccelSamdwich[0][j] > i[j]:
                 AccelSamdwich[0][j] = i[j]
@@ -59,10 +59,13 @@ def Calibrate(mpu,manualtemp = False, verbose = False):
 
     mpu.AccelOffset = [AccelSamdwich[1][x] / (-len(accel)) for x in range(3)]
 
-    mpu.AccelIgnore = [numpy.add(AccelSamdwich[0],mpu.AccelOffset).tolist(),numpy.add(AccelSamdwich[2],mpu.AccelOffset).tolist]
+    mpu.AccelIgnore = [numpy.add(AccelSamdwich[0],mpu.AccelOffset),numpy.add(AccelSamdwich[2],mpu.AccelOffset)]
+    accel_abs_error = (numpy.absolute(mpu.AccelIgnore[0]) + numpy.absolute(mpu.AccelIgnore[1]))
+    accel_error = accel_abs_error * padding
+    mpu.AccelIgnore = [(mpu.AccelIgnore[0] + accel_error).tolist(),(mpu.AccelIgnore[1] + accel_error).tolist()]
 
     GyroSamdwich = [gyro[0].copy(),gyro[0].copy(),gyro[0].copy()]
-    for i in gyro:
+    for i in gyro: #trova le  x y z minori, maggiori e medie e salvale.
         for j in range(3):
             if GyroSamdwich[0][j] > i[j]: #min
                 GyroSamdwich[0][j] = i[j]
@@ -73,7 +76,10 @@ def Calibrate(mpu,manualtemp = False, verbose = False):
             GyroSamdwich[1][j] += i[j] #mean
 
     mpu.GyroOffset = [GyroSamdwich[1][x] / (-len(gyro)) for x in range(3)]
-    mpu.GyroIgnore = [numpy.add(GyroSamdwich[0],mpu.GyroOffset).tolist(), numpy.add(GyroSamdwich[2],mpu.GyroOffset).tolist()]
+    mpu.GyroIgnore = [numpy.add(GyroSamdwich[0],mpu.GyroOffset), numpy.add(GyroSamdwich[2],mpu.GyroOffset)]
+    gyro_abs_error = (numpy.absolute(mpu.GyroIgnore[0]) + numpy.absolute(mpu.GyroIgnore[1]))
+    gyro_error = gyro_abs_error * padding
+    mpu.GyroIgnore = [(mpu.GyroIgnore[0] + accel_error).tolist(),(mpu.GyroIgnore[1] + accel_error).tolist()]
 
     if verbose:
         print("AccelOffset: " + str(mpu.AccelOffset))
@@ -82,12 +88,12 @@ def Calibrate(mpu,manualtemp = False, verbose = False):
         print("GyroIgnore: " + str(mpu.GyroIgnore))
 
 def GetAccelData(mpu): #da implementare
-    accel_data = mpu.Sensor.get_accel_data()
+    accel_data = _3dDictToArr(mpu.Sensor.get_accel_data())
 
-def GetAccelData(mpu): #da implementare
-    None
+def GetGyroData(mpu): #da implementare
+    gyro_data = _3dDictToArr(mpu.Sensor.get_gyro_data())
 
 mpu = MPU6050()
-Calibrate(mpu,verbose = True)
+Calibrate(mpu,1000,verbose = True,padding = 0.05)
 
 #poi ci sarà anche da fare il "mapper"? (cioè colui che calcola la tua posizione
