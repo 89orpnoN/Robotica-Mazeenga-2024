@@ -73,3 +73,5 @@ def GetAccelData(mpu): #da implementare
 
 mpu = MPU6050()
 Calibrate(mpu)
+
+#poi ci sarà anche da fare il "mapper"? (cioè colui che calcola la tua posizione
