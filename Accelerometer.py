@@ -89,13 +89,41 @@ def Calibrate(mpu,samples,padding = 0.05,manualtemp = False, verbose = False):
         print("GyroIgnore: " + str(mpu.GyroIgnore))
         print("gyro_error: " + str(gyro_error))
 
+def AddOffset(data,offset):
+    return numpy.add(data, offset).tolist()
+
 def GetAccelData(mpu): #da implementare
     accel_data = _3dDictToArr(mpu.Sensor.get_accel_data())
+    offset_data = AddOffset(accel_data,mpu.AccelOffset)
+
+    cross = numpy.greater(offset_data,mpu.AccelIgnore[1]) & numpy.less(offset_data,mpu.AccelIgnore[0])
+    for i in range(3):
+        if not cross[i]:
+            offset_data[i] = 0.0
+    return offset_data.tolist()
 
 def GetGyroData(mpu): #da implementare
     gyro_data = _3dDictToArr(mpu.Sensor.get_gyro_data())
+    offset_data = AddOffset(gyro_data, mpu.GyroOffset)
+
+    cross = numpy.greater(offset_data, mpu.GyroIgnore[1]) & numpy.less(offset_data, mpu.GyroIgnore[0])
+    for i in range(3):
+        if not cross[i]:
+            offset_data[i] = 0.0
+    return offset_data.tolist()
+
+
+def test():
+    global mpu
+    while True:
+        print("#" * 20)
+        print(GetGyroData(mpu))
+        print(GetAccelData(mpu))
+        print("#" * 20)
+
 
 mpu = MPU6050()
 Calibrate(mpu,1000,verbose = True,padding = 0.05)
+test()
 
-#poi ci sarà anche da fare il "mapper"? (cioè colui che calcola la tua posizione
+#poi ci sarà anche da fare il "mapper"? (cioè colui che calcola la tua posizione)
