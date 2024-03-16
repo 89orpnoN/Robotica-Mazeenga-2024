@@ -62,6 +62,10 @@ def Calibrate(mpu,manualtemp = False):
     mpu.GyroOffset = GyroSamdwich[1]
     mpu.GyroIgnore = [GyroSamdwich[0], GyroSamdwich[2]]
 
+    print("GyroOffset: "+str(mpu.GyroOffset))
+    print("GyroIgnore: " + str(mpu.GyroIgnore))
+    print("AccelOffset: " + str(mpu.AccelOffset))
+    print("AccelIgnore: " + str(mpu.AccelIgnore))
 
 mpu = MPU6050()
 Calibrate(mpu)
