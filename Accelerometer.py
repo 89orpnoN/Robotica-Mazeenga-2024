@@ -79,7 +79,7 @@ def Calibrate(mpu,samples,padding = 0.05,manualtemp = False, verbose = False):
     mpu.GyroIgnore = [numpy.add(GyroSamdwich[0],mpu.GyroOffset), numpy.add(GyroSamdwich[2],mpu.GyroOffset)]
     gyro_abs_error = (numpy.absolute(mpu.GyroIgnore[0]) + numpy.absolute(mpu.GyroIgnore[1]))
     gyro_error = gyro_abs_error * padding
-    mpu.GyroIgnore = [(mpu.GyroIgnore[0] + accel_error).tolist(),(mpu.GyroIgnore[1] + accel_error).tolist()]
+    mpu.GyroIgnore = [(mpu.GyroIgnore[0] + gyro_error).tolist(),(mpu.GyroIgnore[1] + gyro_error).tolist()]
 
     if verbose:
         print("AccelOffset: " + str(mpu.AccelOffset))
