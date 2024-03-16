@@ -96,7 +96,7 @@ def GetAccelData(mpu): #da implementare
     accel_data = _3dDictToArr(mpu.Sensor.get_accel_data())
     offset_data = AddOffset(accel_data,mpu.AccelOffset)
 
-    cross = numpy.greater(offset_data,mpu.AccelIgnore[1]) & numpy.less(offset_data,mpu.AccelIgnore[0])
+    cross = numpy.greater(offset_data,mpu.AccelIgnore[1]) | numpy.less(offset_data,mpu.AccelIgnore[0])
     for i in range(3):
         if not cross[i]:
             offset_data[i] = 0.0
@@ -106,7 +106,7 @@ def GetGyroData(mpu): #da implementare
     gyro_data = _3dDictToArr(mpu.Sensor.get_gyro_data())
     offset_data = AddOffset(gyro_data, mpu.GyroOffset)
 
-    cross = numpy.greater(offset_data, mpu.GyroIgnore[1]) & numpy.less(offset_data, mpu.GyroIgnore[0])
+    cross = numpy.greater(offset_data, mpu.GyroIgnore[1]) | numpy.less(offset_data, mpu.GyroIgnore[0])
     for i in range(3):
         if not cross[i]:
             offset_data[i] = 0.0
