@@ -13,9 +13,6 @@ class  MPU6050:
         self.GyroIgnore = [None,None]
         self.AccelIgnore = [None,None]
 
-
-
-
 def Calibrate(mpu,manualtemp = False):
     if manualtemp:
         mpu.TempOffset = int(input("offset temperatura: ")) #niente error check, se lo scrivi male sono affari tuoi
@@ -67,6 +64,12 @@ def Calibrate(mpu,manualtemp = False):
     print("GyroIgnore: " + str(mpu.GyroIgnore))
     print("AccelOffset: " + str(mpu.AccelOffset))
     print("AccelIgnore: " + str(mpu.AccelIgnore))
+
+def GetAccelData(mpu): #da implementare
+    None
+
+def GetAccelData(mpu): #da implementare
+    None
 
 mpu = MPU6050()
 Calibrate(mpu)
