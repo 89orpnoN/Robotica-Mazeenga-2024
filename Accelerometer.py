@@ -123,7 +123,7 @@ def test():
 
 
 mpu = MPU6050()
-Calibrate(mpu,1000,verbose = True,padding = 0.05)
-test()
+Calibrate(mpu,1000,verbose = False,padding = 0.05)
 
+#test()
 #poi ci sarà anche da fare il "mapper"? (cioè colui che calcola la tua posizione)

@@ -4,7 +4,7 @@ from motors import robot
 from gpiozero import Button
 from time import sleep
 
-WALL_THRESHOLD = 60
+WALL_THRESHOLD = 60 #millimetri
 
 def is_free(tof): return Vl53l0x.Getrange(tof) > WALL_THRESHOLD
 

@@ -1,11 +1,7 @@
-import Vl53l0x
-from victim import victim
 from motors import robot
-from gpiozero import Button
-from time import sleep
 import threading
 
-
+#script inutile fatto per diletto, utile per testare il movimento
 
 last_button = [""]
 before_last_button = [""]
