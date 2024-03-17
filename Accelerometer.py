@@ -92,9 +92,10 @@ def Calibrate(mpu,samples,padding = 0.1,manualtemp = False, verbose = False):
 def AddOffset(data,offset):
     return numpy.add(data, offset).tolist()
 
-def GetAccelData(mpu): #da implementare
+def GetAccelData(mpu,get_raw = False): #da implementare
     accel_data = _3dDictToArr(mpu.Sensor.get_accel_data())
     offset_data = AddOffset(accel_data,mpu.AccelOffset)
+    if get_raw: return offset_data
 
     cross = numpy.greater(offset_data,mpu.AccelIgnore[1]) | numpy.less(offset_data,mpu.AccelIgnore[0])
     for i in range(3):
@@ -102,9 +103,10 @@ def GetAccelData(mpu): #da implementare
             offset_data[i] = 0.0
     return offset_data
 
-def GetGyroData(mpu): #da implementare
+def GetGyroData(mpu, get_raw = False): #da implementare
     gyro_data = _3dDictToArr(mpu.Sensor.get_gyro_data())
     offset_data = AddOffset(gyro_data, mpu.GyroOffset)
+    if get_raw: return offset_data
 
     cross = numpy.greater(offset_data, mpu.GyroIgnore[1]) | numpy.less(offset_data, mpu.GyroIgnore[0])
     for i in range(3):
