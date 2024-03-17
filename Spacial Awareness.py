@@ -11,7 +11,7 @@ def deltaT(l_time):
     return time.process_time_ns() - l_time
 
 while True:
-    gyro_data = numpy.array(am.GetGyroData(am.mpu))
+    gyro_data = numpy.array(am.GetGyroData(am.mpu,True))
     added_velocity = gyro_data * nm_to_s(deltaT(cycle_T))
     Angular_V = Angular_V + added_velocity
     current_rotation = current_rotation + (Angular_V * nm_to_s(deltaT(cycle_T)))
