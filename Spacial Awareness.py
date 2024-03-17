@@ -21,5 +21,6 @@ while True:
     print("gyro_data: " + str(gyro_data))
     print("cycle_T: " + str(cycle_T))
 
+    time.sleep(0.1)
     cycle_T = time.process_time_ns()
 
