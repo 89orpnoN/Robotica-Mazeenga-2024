@@ -24,3 +24,4 @@ while True:
     time.sleep(0.1)
     cycle_T = time.process_time_ns()
 
+#usa questa repository https://github.com/mbrossar/ai-imu-dr.git
